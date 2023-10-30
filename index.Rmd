@@ -26,4 +26,6 @@ output:
 ## My most recent explore was to visit Little Island in NYC
 ![](https://images.adsttc.com/media/images/60ae/5ae0/f91c/81f6/2800/00a4/large_jpg/Little_Island_2021_05_20_DSC_9450_CREDIT_Timothy_Schenck.jpg?1622039224)
 
+# Link 
+[Resume](resume.html)
 

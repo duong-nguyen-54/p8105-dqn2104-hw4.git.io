@@ -1,12 +1,60 @@
 ---
-title: "My awesome website"
+title: "Resume"
 output: 
   html_document:
     toc: true
     toc_float: true
     theme: cerulean
 ---
+## Education {.tabset}
 
-# This is Jeff's awesome website
+### Graduate Program 
 
-![](https://media.giphy.com/media/drXGoW1iudhKw/giphy.gif)
+Mailman School of Public Health, NY, NY, 10032
+
+### Undergraduate Program
+
+Concordia College, Moorhead, MN, 56562
+
+## Experiences {.tabset}
+
+### EHS Research Assistant
+ 
+● Co-led a metabolomic study to identify metabolomic signatures related to perinatal exposure to 
+metalloids and metals in relation to the development of asthma in children
+
+● Utilized advanced data analysis tools, including xMWAS, xMSannotator, and Mummichog, for 
+metabolite annotation and pathway analysis across 15 metals and 700+ metabolites
+
+● Co-authored a scientific manuscript titled “Integrating the perinatal metallome and metabolome:
+Interactions and associations with childhood asthma in Northern Plains”
+
+### Medical Reviewer at Columbia Center for Children’s Environmental Health
+
+● Reviewed and collected data from medical records from 1,000+ patients from Obstetrics-Gynecology 
+department from New York-Presbyterian hospitals
+
+● Extracted and managed a Redcap database – a confidentially medical data source to serve a federally 
+funded multi-site research project (ECHO)
+
+
+### Undergrad Researcher Assistant 
+
+● Investigated & categorized microplastics in 100+ water samples and waterfowls’ digestive systems
+
+● Conducted data analysis using RStudio to assess the prevalence of microplastics in the environment 
+and its exposure to waterfowl
+
+● Authored a scientific manuscript titled “Microlittle in the gastrointestinal tracts of dabbling and 
+ground-foraging waterfowl in the upper Midwest” 
+
+
+## Skills {.tabset}
+
+### Language 
+
+English, Vietnamese, French
+
+### Tools/ Programming Languages
+
+R, SAS, Python, MySQL, ArcGIS, QGIS

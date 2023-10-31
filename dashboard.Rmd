@@ -31,7 +31,7 @@ weather =
     tmax = tmax / 10) |>
   select(name, id, everything())
 ```
-Column {data-width=650}
+Column {.tabset}
 -----------------------------------------------------------------------
 
 ### Chart A
@@ -44,8 +44,6 @@ plot_ly(
   color =~name, text= ~text_label, alpha=0.5)
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
 
 ### Chart B
 

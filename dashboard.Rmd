@@ -1,0 +1,73 @@
+---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source: embed
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+```
+
+```{r}
+weather = 
+  rnoaa::meteo_pull_monitors(
+    c("USW00094728", "USW00022534", "USS0023B17S"),
+    var = c("PRCP", "TMIN", "TMAX"), 
+    date_min = "2021-01-01",
+    date_max = "2022-12-31") |>
+  mutate(
+    name = recode(
+      id, 
+      USW00094728 = "CentralPark_NY", 
+      USW00022534 = "Molokai_HI",
+      USS0023B17S = "Waterhole_WA"),
+    tmin = tmin / 10,
+    tmax = tmax / 10) |>
+  select(name, id, everything())
+```
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+weather %>%
+  mutate(text_label = str_c("tmax: ", tmax, "\ntmin: ", tmin, "\nprep:", prcp)) %>%
+plot_ly(
+  x=~tmin, y=~tmax, type = "scatter", mode="markers",
+  color =~name, text= ~text_label, alpha=0.5)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+weather %>%
+  mutate(name = fct_reorder(name, tmax, .fun = median, .desc = TRUE, .na_rm = TRUE),
+         prcp = as.numeric(tmax)) %>%
+  plot_ly(x=~name, y = ~tmax, color=~name, type = "violin", colors = "viridis")
+```
+
+### Chart C
+
+```{r}
+weather %>% 
+  separate(date,into=c("year", "month", "date"), sep = "\\-")%>%
+  select(name, year,month, prcp) %>%
+  filter(year=="2022")%>%
+  group_by(name,month)%>%
+  summarize(month_prcp=mean(prcp,na.rm=TRUE))%>%
+  mutate(month=as.numeric(month))%>%
+  mutate(month=month.abb[month])%>%
+  mutate(month=factor(month, levels = substr(month.name, 1, 3)))%>%
+  plot_ly(x = ~month, y = ~month_prcp, color = ~name, type = "bar", colors = "viridis")
+```
+

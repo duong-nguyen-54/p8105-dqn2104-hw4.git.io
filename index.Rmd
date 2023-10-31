@@ -29,3 +29,4 @@ output:
 # Link 
 [Resume](resume.html)
 
+[Plotly](dashboard.html)

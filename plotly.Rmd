@@ -1,31 +1,63 @@
 ---
-title: "Danny Nguyen"
+title: "plotly"
 output: 
   html_document:
     toc: true
     toc_float: true
     theme: cerulean
+editor_options: 
+  chunk_output_type: console
 ---
 
-# School
-## Mailman School of Public Health
+# Set up 
+```{r}
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+```
 
-![](https://keystoneacademic-res.cloudinary.com/image/upload/element/18/181192_campus_4000x1400.jpg)
+```{r}
+weather = 
+  rnoaa::meteo_pull_monitors(
+    c("USW00094728", "USW00022534", "USS0023B17S"),
+    var = c("PRCP", "TMIN", "TMAX"), 
+    date_min = "2021-01-01",
+    date_max = "2022-12-31") |>
+  mutate(
+    name = recode(
+      id, 
+      USW00094728 = "CentralPark_NY", 
+      USW00022534 = "Molokai_HI",
+      USS0023B17S = "Waterhole_WA"),
+    tmin = tmin / 10,
+    tmax = tmax / 10) |>
+  select(name, id, everything())
+```
 
-# Department
-## Environmental Health Sciences
+```{r}
+weather %>%
+  mutate(text_label = str_c("tmax: ", tmax, "\ntmin: ", tmin, "\nprep:", prcp)) %>%
+plot_ly(
+  x=~tmin, y=~tmax, type = "scatter", mode="markers",
+  color =~name, text= ~text_label, alpha=0.5)
+```
 
-![](ehs.png)
+```{r}
+weather %>%
+  mutate(name = fct_reorder(name, tmax, .fun = median, .desc = TRUE, .na_rm = TRUE),
+         prcp = as.numeric(tmax)) %>%
+  plot_ly(x=~name, y = ~tmax, color=~name, type = "violin", colors = "viridis")
+```
 
-# Hometown 
-## I come from Hanoi, Vietnam
-
-![](https://a.cdn-hotels.com/gdcs/production144/d1394/a304783d-6dc9-4bb2-9239-d124a16a154e.jpg?impolicy=fcrop&w=800&h=533&q=medium)
-
-# Most recent trip
-## My most recent explore was to visit Little Island in NYC
-![](https://images.adsttc.com/media/images/60ae/5ae0/f91c/81f6/2800/00a4/large_jpg/Little_Island_2021_05_20_DSC_9450_CREDIT_Timothy_Schenck.jpg?1622039224)
-
-# Link 
-[Resume](resume.html)
-
+```{r}
+weather %>% 
+  separate(date,into=c("year", "month", "date"), sep = "\\-")%>%
+  select(name, year,month, prcp) %>%
+  filter(year=="2022")%>%
+  group_by(name,month)%>%
+  summarize(month_prcp=mean(prcp,na.rm=TRUE))%>%
+  mutate(month=as.numeric(month))%>%
+  mutate(month=month.abb[month])%>%
+  mutate(month=factor(month, levels = substr(month.name, 1, 3)))%>%
+  plot_ly(x = ~month, y = ~month_prcp, color = ~name, type = "bar", colors = "viridis")
+```
